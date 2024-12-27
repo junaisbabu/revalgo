@@ -9,8 +9,8 @@ export function DashboardHeader() {
   const title = pathname.split("/").filter(Boolean)[0];
 
   return (
-    <header className="w-full py-2 px-6 h-16 flex items-center justify-between">
-      <h1 className="capitalize text-lg font-bold">{title || "Home"}</h1>
+    <header className="w-full py-2 px-6 h-16 flex items-center justify-between shadow-sm border border-b">
+      <h1 className="capitalize text-lg font-medium">{title || "Home"}</h1>
       <div>
         <Image
           className="rounded-full"
