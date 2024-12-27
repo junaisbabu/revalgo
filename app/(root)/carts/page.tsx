@@ -7,6 +7,7 @@ import { DataTable } from "@/components/data-table";
 import { columns } from "@/components/table-columns/carts-columns";
 import Spinner from "@/components/ui/spinner";
 import { AppDispatch, RootState } from "@/redux/store";
+import { useShowErrorMessage } from "@/hooks/use-show-error-message";
 
 const Page = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -17,9 +18,17 @@ const Page = () => {
     error: errorCarts,
   } = useSelector((state: RootState) => state.carts);
 
+  const showErrorMsg = useShowErrorMessage();
+
   useEffect(() => {
-    dispatch(fetchCarts());
-  }, [dispatch]);
+    if (errorCarts) {
+      showErrorMsg(errorCarts);
+    }
+
+    if (!carts.length) {
+      dispatch(fetchCarts());
+    }
+  }, [errorCarts, dispatch]);
 
   return (
     <div>

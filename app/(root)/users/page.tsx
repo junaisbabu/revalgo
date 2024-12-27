@@ -7,6 +7,7 @@ import { DataTable } from "@/components/data-table";
 import { columns } from "@/components/table-columns/users-columns";
 import Spinner from "@/components/ui/spinner";
 import { AppDispatch, RootState } from "@/redux/store";
+import { useShowErrorMessage } from "@/hooks/use-show-error-message";
 
 const Page = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -17,9 +18,17 @@ const Page = () => {
     error: errorUsers,
   } = useSelector((state: RootState) => state.users);
 
+  const showErrorMsg = useShowErrorMessage();
+
   useEffect(() => {
-    dispatch(fetchUsers());
-  }, [dispatch]);
+    if (errorUsers) {
+      showErrorMsg(errorUsers);
+    }
+
+    if (!users.length) {
+      dispatch(fetchUsers());
+    }
+  }, [errorUsers, dispatch]);
 
   return (
     <div>
